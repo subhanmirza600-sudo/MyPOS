@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Restaurant (POS) Management System</title>
+
+    <link rel="stylesheet" href="foodstyle.css">
+</head>
+
+<body>
+    <div class="title">
+        <hr>
+        <h1 style="color: whitesmoke;">Welcome To My Web Based</h1>
+        <h1>Restaurant (POS) Managment System</h1>
+        <hr>
+        <br><br><br><br><br><br>
+        <hr>
+        <h1 style="color: yellow;">Staff Managment</h1>
+        <hr>
+    </div>
+    <div class="box box1">
+        <button onclick="openStaffModal()">Add Staff</button>
+    </div>
+    <div class="box box1">
+        <button>Delete Staff</button>
+    </div>
+    <div class="box box1">
+        <button>Update Staff</button>
+    </div>
+    <div class="box box2">
+        <button>Display Staff</button>
+    </div>
+    </div>
+
+
+
+    <div class="title">
+        <hr>
+        <h1 style="color: pink;">Menu Management</h1>
+        <hr>
+    </div>
+    <div class="box box1">
+        <button onclick="openModal()">Add Menu Item</button>
+    </div>
+    <div class="box box1">
+        <button onclick="openDeleteModal()">Delete Menu Item</button>
+    </div>
+    <div class="box box1">
+        <button onclick="openUpdateModal()">Update Menu Item</button>
+    </div>
+    <div class="box box1">
+        <button onclick="openSearchModal()">Search Menu Items</button>
+    </div>
+    <div class="box box2">
+        <button onclick="showMenu()">Display Menu Items</button>
+    </div>
+    </div>
+
+
+
+
+
+    <div class="title">
+        <hr>
+        <h1 style="color: lightgreen">Financial Managment</h1>
+        <hr>
+    </div>
+    <div class="box box1">
+        <button onclick="generateInvoice()">Generate Invoice</button>
+    </div>
+    <div class="box box1">
+        <button onclick="openOrderModal()">Take Orders</button>
+    </div>
+    <!-- <div class="box box1">
+        <button onclick="openOrderDetailsModal()">Take Order Details</button>
+    </div> -->
+    <div class="box box1">
+        <button onclick="getTotalSales()">Get Total Sales Report</button>
+    </div>
+    </div>
+
+
+    <!-- Modal (Dialog Box) -->
+    <div id="menuModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+        <div style="background:white; padding:20px; border-radius:10px; width:500px; height: 300px;">
+            <h3>Add Menu Item</h3>
+
+            <input type="text" id="itemName" placeholder="Item Name"
+                style="width:80%; padding:8px; margin-bottom:10px;">
+            <input type="number" id="itemPrice" placeholder="Price" style="width:80%; padding:8px; margin-bottom:10px;">
+            <br>
+            <button onclick="addItem()">Add</button>
+            <button onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+
+
+
+    <!-- Display Menu Modal -->
+    <div id="displayModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+        <div
+            style="background:white; padding:20px; border-radius:10px; width:50%; max-height:80%; overflow:auto; font-size: x-large;">
+            <h3>Menu Items</h3>
+
+            <div id="menuList"></div>
+
+            <br>
+            <button onclick="closeDisplayModal()">Close</button>
+        </div>
+    </div>
+
+
+
+    <!-- Update Menu Modal -->
+    <div id="updateModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+        <div style="background:white; padding:20px; border-radius:10px; width:300px;">
+            <h3>Update Menu Item</h3>
+
+            <input type="number" id="updateId" placeholder="Item ID"
+                style="width:90%; padding:8px; margin-bottom:10px;">
+
+            <input type="text" id="updateName" placeholder="New Name"
+                style="width:90%; padding:8px; margin-bottom:10px;">
+
+            <input type="number" id="updatePrice" placeholder="New Price"
+                style="width:90%; padding:8px; margin-bottom:10px;">
+
+            <button onclick="updateItem()">Update</button>
+            <button onclick="closeUpdateModal()">Cancel</button>
+        </div>
+    </div>
+
+
+
+
+    <!-- Search Menu Modal -->
+    <div id="searchModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+        <div style="background:white; padding:20px; border-radius:10px; width:50%; height: 90%; font-size: x-large;">
+            <h3>Search Menu Item</h3>
+
+            <input type="text" id="searchName" placeholder="Enter item name"
+                style="width:90%; padding:8px; margin-bottom:10px;">
+
+            <button onclick="searchItem()">Search</button>
+            <button onclick="closeSearchModal()">Close</button>
+
+            <hr>
+            <div id="searchResult"></div>
+        </div>
+    </div>
+
+
+    <!-- Delete Menu Modal -->
+    <div id="deleteModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+        <div style="background:white; padding:20px; border-radius:10px; width:300px;">
+            <h3>Delete Menu Item</h3>
+
+            <input type="number" id="deleteId" placeholder="Enter Item ID"
+                style="width:90%; padding:8px; margin-bottom:10px;">
+
+            <button onclick="deleteItem()">Delete</button>
+            <button onclick="closeDeleteModal()">Cancel</button>
+        </div>
+    </div>
+
+
+
+    <div id="orderModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+        <div style="background:white; padding:20px; border-radius:10px; height: 80%; width: 80%; font-size: 20px;">
+
+            <h2 id="orderNo" style="color: green;"></h2>
+
+            <h3>Take Order</h3>
+
+            <input type="text" id="customerName" placeholder="Customer Name"><br><br>
+
+            <button onclick="addOrder()">Add Customer</button>
+            <button onclick="openOrderDetailsModal()">Take Order Details</button>
+            <button onclick="closeOrderModal()">Cancel</button>
+        </div>
+    </div>
+
+
+    <div id="orderDetailsModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+        <div style="background:white; padding:20px; border-radius:10px; height: 80%; width: 80%; font-size: 20px;">
+            <h3>Add Order Details</h3>
+            <input type="number" id="itemId" placeholder="Item ID"><br><br>
+            <input type="number" id="qty" placeholder="Quantity"><br><br>
+
+            <button onclick="addOrderDetails()">Add</button>
+            <button onclick="closeOrderDetailsModal()">Cancel</button>
+        </div>
+    </div>
+
+
+    <div id="invoiceModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+        <div style="background:white; padding:20px; border-radius:10px; width:500px; font-size: large;">
+            <div id="invoiceContent"></div>
+            <button onclick="closeInvoice()">Close</button>
+        </div>
+    </div>
+
+
+
+    <div id="staffModal"
+    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
+
+    <div style="background:white; padding:20px; border-radius:10px; width:300px;">
+        <h3>Add Staff</h3>
+
+        <input type="text" id="staffUsername" placeholder="Username"><br><br>
+        <input type="password" id="staffPassword" placeholder="Password"><br><br>
+
+        <button onclick="addStaff()">Add</button>
+        <button onclick="closeStaffModal()">Cancel</button>
+    </div>
+</div>
+
+<script src="foodscript.js"></script>
+</body>
+
+</html>

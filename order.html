@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Take Orders</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark text-white">
+
+    <div class="container mt-5">
+
+        <div class="card p-4 shadow">
+
+            <h2 class="text-center mb-4">Take Order</h2>
+
+            <!-- CREATE ORDER -->
+            <input type="text" id="customerName" class="form-control mb-3" placeholder="Customer Name">
+            <button type="radio" <input type="text" id="customerName" class="form-control mb-3"
+                placeholder="Customer Name">
+
+                <!-- STATUS RADIO BUTTONS -->
+                <div class="mb-3">
+                    <label class="form-label">Payment Status</label><br>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="paid" value="Paid">
+                        <label class="form-check-label" for="paid">Paid</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="pending" value="Pending">
+                        <label class="form-check-label" for="pending">Pending</label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-100 mb-3" onclick="addOrder()">
+                    Create Order
+                </button>
+
+                <hr>
+
+                <h4 class="text-center">Add Order Items</h4>
+
+                <!-- ORDER DETAILS -->
+                <input type="number" id="itemId" class="form-control mb-2" placeholder="Item ID">
+                <input type="number" step="0.1" id="qty" class="form-control mb-2" placeholder="Quantity">
+
+                <button class="btn btn-success w-100 mb-3" onclick="addOrderDetails()">
+                    Add Item
+                </button>
+
+                <!-- CURRENT ORDER INFO -->
+                <div class="alert alert-info text-center">
+                    Current Order ID: <span id="currentOrderText">Not Created</span>
+                </div>
+
+
+
+                <h5 class="text-center mt-4">Current Order Items</h5>
+
+                <table class="table table-dark table-bordered text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Item Name</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                        <!-- Items will appear here -->
+                    </tbody>
+                </table>
+
+                <h4 class="text-end">Total: Rs. <span id="totalAmount">0</span></h4>
+
+
+                <button onclick="window.location.href='invoice.html' + '?order_id=' + currentOrderId"
+                    class="btn btn-danger w-100 mb-3">Generate Invoice</button>
+
+                <button class="btn btn-secondary w-100" onclick="window.history.back()">
+                    Back
+                </button>
+        </div>
+    </div>
+
+    <script>
+
+        let currentOrderId = null;
+        let orderItems = [];
+
+        // CREATE ORDER
+        function addOrder() {
+
+            let customerName = document.getElementById("customerName").value;
+
+            let status = document.querySelector('input[name="status"]:checked');
+
+            if (customerName === "") {
+                alert("Enter customer name");
+                return;
+            }
+
+            if (!status) {
+                alert("Select payment status (Paid or Pending)");
+                return;
+            }
+
+            fetch("add_order.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    customer_name: customerName,
+                    status: status.value
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    if (data.status === "error") {
+                        alert(data.message);
+                        return;
+                    }
+
+                    currentOrderId = data.order_id;
+
+                    document.getElementById("currentOrderText").innerText = currentOrderId;
+
+                    alert("Order Created Successfully! ID: " + currentOrderId);
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert("Server error or invalid JSON response");
+                });
+        }
+
+        // ADD ORDER DETAILS
+        function addOrderDetails() {
+
+            if (!currentOrderId) {
+                alert("Please create an order first!");
+                return;
+            }
+
+            let itemId = document.getElementById("itemId").value;
+            let qty = document.getElementById("qty").value;
+
+            if (itemId === "" || qty === "") {
+                alert("Fill all fields");
+                return;
+            }
+
+            fetch("add_order_details.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    order_id: currentOrderId,
+                    item_id: itemId,
+                    quantity: qty
+                })
+            })
+                .then(res => res.json())   // 👈 CHANGE THIS
+                .then(data => {
+
+                    if (data.status === "error") {
+                        alert(data.message);
+                        return;
+                    }
+
+                    // 👉 Add item to array
+                    let item = {
+                        item_id: itemId,
+                        name: data.name,
+                        qty: qty,
+                        price: data.price,
+                        subtotal: data.subtotal
+                    };
+
+                    orderItems.push(item);
+
+                    updateTable();
+
+                    document.getElementById("itemId").value = "";
+                    document.getElementById("qty").value = "";
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert("Server error");
+                });
+        }
+
+
+        function updateTable() {
+
+            let table = document.getElementById("orderTableBody");
+            table.innerHTML = "";
+
+            let total = 0;
+
+            orderItems.forEach((item, index) => {
+
+                let row = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.name}</td>
+                <td>${item.qty}</td>
+                <td>${item.price}</td>
+                <td>${item.subtotal}</td>
+            </tr>
+        `;
+
+                table.innerHTML += row;
+
+                total += parseFloat(item.subtotal);
+            });
+
+            document.getElementById("totalAmount").innerText = total;
+        }
+    </script>
+
+</body>
+
+</html>

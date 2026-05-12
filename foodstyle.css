@@ -1,0 +1,113 @@
+        body {
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            /* height: 100vh; */
+            padding: 100px;
+            /* Example: White center fading to blue on both sides */
+            background: #0f172a;
+        }
+
+        .title {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #38bdf8;
+            letter-spacing: -0.5px;
+            animation: slideDownFade 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Keyframes for the slide-down effect */
+        @keyframes slideDownFade {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+                /* Starts above its position */
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .box {
+            display: flex;
+            /* Turns the box into a flex container */
+            justify-content: center;
+            /* Centers button horizontally */
+            align-items: center;
+            /* Centers button vertically */
+            height: 150px;
+            border-radius: 20px;
+            animation: slideDownFade 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            /* Ensure the box has height to see vertical centering */
+        }
+
+        .box button {
+            padding: 10px;
+            margin: 15px;
+            /* Adds breathing room inside the button */
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            /* Subtle gradient for depth */
+            border: none;
+            border-radius: 8px;
+            /* Slightly rounder for a modern look */
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            /* Smooth hover prep */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Adds soft lifting effect */
+        }
+
+        .box button:hover {
+            transform: translateY(-2px);
+            /* Slight lift on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #0056b3;
+            /* Solid color shift or reverse gradient */
+        }
+
+
+        .box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .box1 {
+            background: linear-gradient(to right, red, yellow);
+        }
+
+        .box2 {
+            background: linear-gradient(to right, blue, cyan);
+        }
+
+        .box3 {
+            background: linear-gradient(to right, purple, pink);
+        }
+
+        .box4 {
+            background: linear-gradient(to right, green, lime);
+        }
+
+        .box5 {
+            background: linear-gradient(to right, orange, red);
+        }
+
+        .box6 {
+            background: linear-gradient(to right, teal, navy);
+        }
+
+        .box7 {
+            background: linear-gradient(to right, brown, gold);
+        }
+
+        .box8 {
+            background: linear-gradient(to right, black, gray);
+        }

@@ -1,0 +1,237 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.75),
+                    rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80');
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            color: white;
+
+            min-height: 100vh;
+        }
+
+        /* TOP NAVBAR */
+
+        .navbar {
+
+            width: 100%;
+            padding: 20px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(0, 0, 0, 0.4);
+
+            backdrop-filter: blur(8px);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffc107;
+        }
+
+        .admin {
+
+            font-size: 15px;
+            color: #ddd;
+        }
+
+        /* HEADER */
+
+        .header {
+
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+
+        .header h1 {
+
+            font-size: 45px;
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+
+            color: #ddd;
+            font-size: 16px;
+        }
+
+        /* DASHBOARD GRID */
+
+        .dashboard {
+
+            width: 90%;
+            margin: auto;
+            padding-bottom: 40px;
+        }
+
+        /* SECTION TITLE */
+
+        .section-title {
+
+            font-size: 24px;
+            margin: 40px 0 20px;
+            color: #ffd54f;
+            border-left: 5px solid #ffc107;
+            padding-left: 15px;
+        }
+
+        /* CARD CONTAINER */
+
+        .card-container {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(230px, 1fr));
+
+            gap: 25px;
+        }
+
+        /* CARD */
+
+        .card {
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            border-radius: 20px;
+
+            padding: 30px 20px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            backdrop-filter: blur(12px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+
+            transform: translateY(-8px);
+
+            background: rgba(255, 193, 7, 0.12);
+
+            border-color: #ffc107;
+
+            box-shadow:
+                0 12px 25px rgba(255, 193, 7, 0.2);
+        }
+
+        /* ICON */
+
+        .card i {
+
+            font-size: 42px;
+            margin-bottom: 18px;
+            color: #ffc107;
+        }
+
+        /* CARD TITLE */
+
+        .card h3 {
+
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        /* LOGOUT BUTTON */
+
+        .logout-btn {
+
+            width: 220px;
+
+            margin: 50px auto;
+
+            background: linear-gradient(135deg,
+                    #ff4b2b,
+                    #ff416c);
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            text-align: center;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 8px 20px rgba(255, 65, 108, 0.3);
+        }
+
+        .logout-btn:hover {
+
+            transform: scale(1.05);
+
+            box-shadow:
+                0 10px 25px rgba(255, 65, 108, 0.5);
+        }
+
+        /* FOOTER */
+
+        footer {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #bbb;
+
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:768px) {
+
+            .navbar {
+
+                padding: 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header h1 {
+
+                font-size: 35px;
+            }
+
+            .dashboard {
+
+                width: 95%;
+            }
+        }

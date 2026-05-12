@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Invoice</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background: #0f172a;
+}
+
+/* Invoice Box */
+.invoice-box{
+    background: white;
+    color: black;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 40px auto;
+    box-shadow: 0px 0px 25px rgba(0,0,0,0.3);
+    font-size: 18px;
+}
+
+/* Title */
+.invoice-title{
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+/* Header */
+.invoice-header{
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Table */
+table{
+    width: 100%;
+    /* border-collapse: collapse; */
+    margin-top: 20px;
+}
+
+th, td{
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+}
+
+th{
+    background: #0d6efd;
+    color: white;
+}
+
+/* Total */
+.total-box{
+    text-align: left;
+    margin-top: 20px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* Button */
+.print-btn{
+    margin-top: 20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container mt-4">
+
+<div class="card p-4">
+
+<h2 class="text-center text-white">Generate Invoice</h2>
+
+<input type="number" id="orderId" class="form-control mb-3" placeholder="Enter Order ID">
+
+<button class="btn btn-success w-100" onclick="generateInvoice()">
+Generate Invoice
+</button>
+
+<div style="margin-bottom: 20px;" id="invoiceContent"></div>
+
+
+        <hr>
+        <button class="btn btn-secondary w-100" onclick="window.history.back()">
+            Back
+        </button>
+</div>
+
+
+</div>
+
+<script>
+function generateInvoice() {
+
+    fetch("get_invoice.php", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ order_id: orderId.value })
+    })
+
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.status === "error") {
+            document.getElementById("invoiceContent").innerHTML =
+            `<div class="alert alert-danger mt-3">${data.message}</div>`;
+            return;
+        }
+
+        let output = `
+        <div class="invoice-box">
+
+            <div class="invoice-title">JAALI HOUSE POS</div>
+
+            <div class="invoice-header">
+                <p><b>Invoice Receipt</b></p>
+                <p>Order ID: ${data.order_id}</p>
+                <p>Customer: ${data.customer_name}</p>
+                <p>Date: ${data.date || ""}</p>
+                <p>Time: ${data.time || ""}</p>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+        `;
+
+        data.items.forEach(i => {
+            output += `
+                <tr>
+                    <td>${i.id}</td>
+                    <td>${i.name}</td>
+                    <td>${i.quantity}</td>
+                    <td>Rs ${i.price}</td>
+                    <td>Rs ${i.total}</td>
+                </tr>
+            `;
+        });
+
+        output += `
+            </table>
+
+            <div class="total-box">
+                GRAND TOTAL: Rs ${data.grand_total}
+            </div>
+
+            <button class="btn btn-primary w-100 print-btn" onclick="window.print()">
+                Print Invoice
+            </button>
+
+        </div>
+        `;
+
+        document.getElementById("invoiceContent").innerHTML = output;
+    });
+}
+</script>
+
+</body>
+</html>

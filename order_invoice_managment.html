@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant POS Dashboard</title>
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            color: white;
+            min-height: 100vh;
+
+            transition: background-image 1.5s ease-in-out;
+        }
+
+        .navbar {
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7),
+                    rgba(222, 72, 13, 0.8));
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 10px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffc107;
+        }
+
+        .admin {
+            font-size: 20px;
+            font-weight: 500;
+            color: gold;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+
+        .header h1 {
+            font-size: 45px;
+            color: gold;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #ddd;
+            font-size: 16px;
+        }
+
+        .dashboard {
+            width: 90%;
+            margin: auto;
+            padding-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 30px;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            color: gold;
+            border-left: 5px solid #ffc107;
+            padding-left: 15px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            backdrop-filter: blur(20px);
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 193, 7, 0.12);
+            border-color: #ffc107;
+            box-shadow:
+                0 12px 25px rgba(255, 193, 7, 0.2);
+        }
+
+        .card i {
+            font-size: 42px;
+            margin-bottom: 18px;
+            color: #ffc107;
+        }
+
+        .card h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 15px;
+            color: #ccc;
+        }
+
+        .logout-btn {
+            width: 220px;
+            margin: 50px auto;
+            background: linear-gradient(135deg,
+                    #ff4b2b,
+                    #ff416c);
+            padding: 15px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow:
+                0 8px 20px rgba(255, 65, 108, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: scale(1.5);
+            box-shadow:
+                0 10px 25px rgba(255, 65, 108, 0.5);
+        }
+
+        .footer {
+            margin-top: 60px;
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.5),
+                    rgba(173, 11, 11, 0.5));
+            padding: 50px 20px 25px;
+            text-align: center;
+            border-top:
+                1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .footer-content h2 {
+            color: #ffc107;
+            margin-bottom: 12px;
+            font-size: 28px;
+        }
+
+        .footer-content p {
+            color: white;
+            font-size: 15px;
+            max-width: 600px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        .social-icons {
+            margin-top: 25px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            margin: 0 8px;
+            border-radius: 20%;
+            background: rgba(255, 255, 255, 0.5);
+            color: #ffc107;
+            font-size: 18px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            background: #ffc107;
+            color: black;
+            box-shadow:
+                0 8px 18px rgba(255, 193, 7, 0.4);
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top:
+                1px solid rgba(255, 255, 255, 0.08);
+            font-size: 18px;
+            color: white;
+        }
+
+        @media(max-width:768px) {
+            .navbar {
+                padding: 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header h1 {
+                font-size: 35px;
+            }
+
+            .dashboard {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            🍔 Restaurant POS
+        </div>
+
+        <div class="admin">
+            Welcome, Mirza Subhan!
+        </div>
+
+    </div>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>My POS Management Dashboard</h1>
+
+        <p>
+            Manage menu, staff, orders, invoices and sales in a decent way .....
+        </p>
+
+    </div>
+
+    <!-- DASHBOARD -->
+
+    <div class="dashboard">
+
+        <!-- FINANCIAL MANAGEMENT -->
+
+        <div class="section-title">
+            Take Order And Generate Invoice Manangement
+        </div>
+
+        <div class="card-container">
+
+            <div class="card" onclick="location.href='order.html'">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <h3>Take Orders</h3>
+
+                <p>Create customer orders quickly</p>
+
+            </div>
+
+            <div class="card" onclick="location.href='display_orders.html'">
+
+                <i class="fa-solid fa-receipt"></i>
+
+                <h3>All Orders</h3>
+
+                <p>View all customer orders</p>
+
+            </div>
+
+            <div class="card" onclick="location.href='search_orders.html'">
+
+                <i class="fa-solid fa-search"></i>
+
+                <h3>Search Orders</h3>
+
+                <p>Find order records easily</p>
+
+            </div>
+        </div>
+
+        <!-- LOGOUT -->
+
+        <div class="logout-btn" onclick="window.location.href='login.html'">
+
+            🚪 Logout
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h2>🍔 Restaurant POS System</h2>
+            <p>
+                Manage orders, staff, menu and sales with a modern POS solution.
+            </p>
+            <div class="social-icons">
+                <a href="#">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="#">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#">
+                    <i class="fa-brands fa-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+            </div>
+            <div class="footer-bottom">
+                © 2026 Restaurant POS Dashboard | Designed By Mirza Subhan
+            </div>
+        </div>
+
+    </footer>
+
+</body>
+<script>
+
+    // ARRAY OF BACKGROUND IMAGES
+
+    const images = [
+
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80",
+
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80",
+
+        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&q=80",
+
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1600&q=80",
+
+        "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1600&q=80",
+
+        "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1600&q=80"
+
+    ];
+
+    // STARTING IMAGE INDEX
+
+    let index = 0;
+
+    // FUNCTION TO CHANGE BACKGROUND
+
+    function changeBackground() {
+
+        document.body.style.background = `
+            linear-gradient(
+                rgba(0,0,0,0.6),
+                rgba(0,0,0,0.6)
+            ),
+            url('${images[index]}')
+        `;
+
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center";
+        document.body.style.backgroundAttachment = "fixed";
+
+        // MOVE TO NEXT IMAGE
+
+        index++;
+
+        // RESTART FROM FIRST IMAGE
+
+        if (index >= images.length) {
+            index = 0;
+        }
+    }
+
+    // LOAD FIRST IMAGE
+
+    changeBackground();
+
+    // CHANGE IMAGE EVERY 5 SECONDS
+
+    setInterval(changeBackground, 5000);
+
+</script>
+
+</html>
